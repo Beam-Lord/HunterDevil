@@ -1,0 +1,114 @@
+:root {
+  --ink: #08070d;
+  --blood: #d21f3c;
+  --bone: #f2e6d8;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050409;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  color: var(--bone);
+  font-family: "DejaVu Sans Mono", "Courier New", monospace;
+  background:
+    radial-gradient(ellipse at 50% 45%, #24101c 0%, #0b0710 55%, #040308 100%);
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+
+/* faint blood vignette behind the screen */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(210, 31, 60, .10), transparent 28%),
+    radial-gradient(circle at 88% 82%, rgba(210, 31, 60, .08), transparent 30%);
+}
+
+#frame {
+  position: relative;
+  line-height: 0;
+  filter: drop-shadow(0 24px 60px rgba(0, 0, 0, .75));
+  outline: 1px solid rgba(242, 230, 216, .10);
+  background: #08070d;
+}
+
+canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  width: 480px;
+  height: 272px;
+  cursor: crosshair;
+}
+
+#scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, .16) 3px,
+    rgba(0, 0, 0, .16) 4px
+  );
+  mix-blend-mode: multiply;
+  opacity: .55;
+}
+
+#boot {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: .28em;
+  color: rgba(242, 230, 216, .5);
+  pointer-events: none;
+  transition: opacity .4s ease;
+  text-transform: uppercase;
+}
+
+#boot.hidden { opacity: 0; }
+
+/* touch controls, injected only on coarse-pointer devices */
+#touch {
+  position: fixed;
+  inset: auto 0 0 0;
+  display: none;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 16px 18px 22px;
+  pointer-events: none;
+  z-index: 10;
+}
+#touch .pad, #touch .acts { display: flex; gap: 10px; pointer-events: auto; }
+#touch button {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 230, 216, .3);
+  background: rgba(8, 7, 13, .62);
+  color: var(--bone);
+  font: 700 11px/1 "DejaVu Sans Mono", monospace;
+  letter-spacing: .04em;
+  touch-action: none;
+}
+#touch button:active { background: rgba(210, 31, 60, .5); }
+@media (pointer: coarse) {
+  #touch { display: flex; }
+  #boot { bottom: 96px; }
+}
