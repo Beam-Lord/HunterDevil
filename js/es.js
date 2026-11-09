@@ -1,0 +1,85 @@
+const PHRASES = {
+  "SHIBUYA BACKSTREETS": "CALLES DE SHIBUYA",
+  "MEAT GRINDER LINE": "LÍNEA MOLEDORA",
+  "THE FORECLOSURE": "EL EMBARGO",
+  "SECTOR 01": "SECTOR 01", "SECTOR 02": "SECTOR 02", "SECTOR 03": "SECTOR 03",
+  "The yakuza are dead. Their debts are not.": "La yakuza murió. Sus deudas no.",
+  "The last train runs on blood.": "El último tren corre con sangre.",
+  "Every contract comes due.": "Todo contrato vence.",
+  "LINE 13": "LÍNEA 13", "SURFACE": "SUPERFICIE", "FORECLOSURE": "EMBARGO",
+  "PAWN": "EMPEÑO", "DEVIL": "DIABLO", "NO REFUNDS": "SIN DEVOLUCIONES",
+  "DEBT": "DEUDA", "BLOOD": "SANGRE", "CHAINSAW": "MOTOSIERRA",
+  "BLOOD GUN": "ESCOPETA SANGRIENTA", "KON BLADE": "KATANA MALDITA", "CURSED EDGE": "FILO MALDITO",
+  "HOLD NOTHING BACK": "SIN CONTENERTE", "Q SWAP": "Q CAMBIAR",
+  "TAB CONTRACTS  ·  ESC PAUSE": "TAB PACTOS · ESC PAUSA",
+  "THE DEBT DEVIL": "DIABLO DE LA DEUDA", "FORECLOSURE": "EMBARGO", "COLLECTOR CLASS": "CLASE COBRADOR",
+  "INTEREST DUE": "INTERÉS VENCIDO", "It has come to collect.": "Vino a cobrar.",
+  "It can smell your credit.": "Puede oler tu crédito.",
+  "DEVIL CONTRACTS": "PACTOS DEMONÍACOS", "POWER NOW. INTEREST FOREVER.": "PODER HOY. INTERÉS ETERNO.",
+  "SIGNED": "FIRMADO", "UNLOCKS A WEAPON": "DESBLOQUEA UN ARMA",
+  "↑ ↓  SELECT      ENTER  SIGN": "↑ ↓ ELEGIR      ENTER FIRMAR", "ESC  CLOSE": "ESC CERRAR",
+  "Every contract is legally binding in Hell.": "Todo pacto es legalmente vinculante en el Infierno.",
+  "MAKIMA": "MAKIMA", "PUBLIC SAFETY  ·  DEVIL HUNTER": "SEGURIDAD PÚBLICA · CAZADORA",
+  "“SIGN HERE.”": "«FIRMA AQUÍ»", "SOLD OUT": "AGOTADO", "↑ ↓  SELECT      ENTER  BUY": "↑ ↓ ELEGIR      ENTER COMPRAR",
+  "ESC  LEAVE": "ESC SALIR", "Makima does not offer refunds. Neither does Hell.": "Makima no hace devoluciones. El Infierno tampoco.",
+  "PAUSED": "EN PAUSA", "THE CHAINSAW CAN WAIT.": "La motosierra puede esperar.",
+  "A/D MOVE   SPACE JUMP   J ATTACK   K DASH": "A/D MOVER   ESPACIO SALTAR   J ATACAR   K EMBESTIR",
+  "L FOX BITE   Q SWAP   E INTERACT   TAB CONTRACTS": "L MORDIDA ZORRO   Q CAMBIAR   E USAR   TAB PACTOS",
+  "M SOUND   ESC RESUME": "M SONIDO   ESC CONTINUAR", "NO PACTS SIGNED. YET.": "AÚN NO HAY PACTOS.",
+  "YOU DIED": "MORISTE", "THE DEBT OUTLIVES YOU.": "LA DEUDA TE SOBREVIVE.",
+  "LAST LAMP:": "ÚLTIMO FAROL:", "ENTER — RISE AGAIN": "ENTER — LEVÁNTATE",
+  "ESC — ABANDON RUN": "ESC — ABANDONAR", "KILLS": "BAJAS", "DEBT COLLECTED": "DEUDA COBRADA",
+  "THE DEBT DEVIL IS DEAD. THE PAPERWORK IS NOT.": "El Diablo de la Deuda cayó. El papeleo sigue.",
+  "RANK": "RANGO", "NEW BEST TIME": "NUEVO RÉCORD", "ENTER — SIGN ANOTHER CONTRACT": "ENTER — FIRMA OTRO PACTO",
+  "ESC — TITLE": "ESC — TÍTULO", "THE HOUSE ALWAYS WINS. UNTIL IT DOESN'T.": "La casa siempre gana. Hasta que no.",
+  "A BLOODSOAKED BARGAIN": "UN TRATO EMPAPADO EN SANGRE", "PRESS ENTER TO SIGN": "PRESIONA ENTER PARA FIRMAR",
+  "E  INTERACT      TAB  CONTRACTS      ESC  PAUSE": "E USAR      TAB PACTOS      ESC PAUSA",
+  "A FAN-MADE PIXEL NIGHTMARE": "PESADILLA PIXELADA HECHA POR FANS", "BEST": "RÉCORD",
+  "M — SOUND": "M — SONIDO", "PULLING THE CORD…": "JALANDO LA CUERDA…",
+  "REST  [E]": "DESCANSAR [E]", "DEVIL CONTRACTS  [E]": "PACTOS DEMONÍACOS [E]", "MAKIMA  [E]": "MAKIMA [E]",
+  "BLOOD DASH": "EMBESTIDA SANGRIENTA", "DEVIL WINGS": "ALAS DEMONÍACAS", "FOX BITE": "MORDIDA DEL ZORRO",
+  "BLOOD SHOTGUN": "ESCOPETA SANGRIENTA", "SPARE HEART": "CORAZÓN EXTRA", "CHAIN TUNE-UP": "AFILAR MOTOSIERRA",
+  "PAY THE DEBT": "PAGAR LA DEUDA", "FIELD STITCHES": "SUTURA DE CAMPO",
+  "K — vanish in a spray of blood. Brief invincibility.": "K — desaparece en sangre. Invulnerabilidad breve.",
+  "The Blood Devil asks only for a little.": "El Diablo de la Sangre pide muy poco.",
+  "SPACE — a second jump in mid-air.": "ESPACIO — segundo salto en el aire.",
+  "Something flutters where your shadow should be.": "Algo aletea donde debería estar tu sombra.",
+  "L — a monstrous jaw. Costs 1 heart. 8s cooldown.": "L — una mandíbula monstruosa. Cuesta 1 corazón. Recarga: 8 s.",
+  "The Fox Devil wants your face. Later.": "El Diablo Zorro quiere tu cara. Después.",
+  "Unlocks the cursed katana and its flying edge. Q to swap.": "Desbloquea la katana maldita y su filo volador. Q para cambiar.",
+  "A dead man's sword. It still remembers.": "La espada de un muerto. Aún recuerda.",
+  "6 shells. Auto-reloads. Q to swap.": "6 cartuchos. Recarga automática. Q para cambiar.",
+  "+1 maximum heart. Fully heals.": "+1 corazón máximo. Te cura por completo.",
+  "Chainsaw and katana hit +5 harder.": "Motosierra y katana hacen +5 de daño.",
+  "Reduce debt by 10. Makima keeps the receipt.": "Reduce la deuda en 10. Makima guarda el recibo.",
+  "Restore 2 hearts.": "Recupera 2 corazones.",
+  "REST": "DESCANSAR", "DEBT COLLECTOR": "COBRADOR DE DEUDAS", "RISE AGAIN": "LEVÁNTATE",
+  "EMPTY": "VACÍO", "NO PACT": "SIN PACTO", "OPEN!": "¡ABIERTO!",
+  "INTEREST +1 DEBT": "INTERÉS +1 DEUDA", "CHECKPOINT": "PUNTO DE CONTROL",
+  "DEBT OUTLIVES YOU": "LA DEUDA TE SOBREVIVE.", "The devil keeps the change.": "El diablo se queda el cambio.",
+  "TAB — OPEN CONTRACTS. POWER NOW. INTEREST LATER.": "TAB — ABRE PACTOS. PODER HOY. INTERÉS DESPUÉS.",
+  "TAB — SIGN A CONTRACT. BLOOD NOW, DEBT FOREVER.": "TAB — FIRMA UN PACTO. SANGRE HOY, DEUDA ETERNA.",
+  "IT FLOATS. IT LIES. CUT IT DOWN.": "FLOTA. MIENTE. CÓRTALO.",
+  "ALREADY SIGNED.": "YA ESTÁ FIRMADO.", "SOLD OUT.": "AGOTADO.",
+  "YOU'RE ALREADY STITCHED.": "YA ESTÁS CURADO.", "NO DEBT. SUSPICIOUS.": "SIN DEUDA. SOSPECHOSO.",
+  "SOUND OFF": "SONIDO: NO", "SOUND ON": "SONIDO: SÍ", "FOX BITE": "MORDIDA ZORRO",
+  "SECTOR": "SECTOR", "TIME": "TIEMPO", "KILLS / DEATHS": "BAJAS / MUERTES",
+  "BEST CLEAR": "MEJOR TIEMPO", "CLEAR TIME": "TIEMPO TOTAL", "DEATHS": "MUERTES",
+  "PACTS": "PACTOS", "UNKNOWN": "DESCONOCIDO", "THE CHAINSAW HEART BEATS CLEAN.": "EL CORAZÓN MOTOSIERRA LATE LIBRE.",
+  "A GOOD DEAL. ALMOST.": "UN BUEN TRATO. CASI.", "THE INTEREST IS MANAGEABLE.": "EL INTERÉS SE PUEDE PAGAR.",
+  "YOU PAID IN PIECES.": "PAGASTE EN PEDAZOS.", "YOU ARE THE COLLATERAL.": "TÚ ERES LA GARANTÍA.",
+};
+
+export function es(text) {
+  const value = String(text);
+  if (PHRASES[value]) return PHRASES[value];
+  return value
+    .replace(/^DEBT (\d+)/, "DEUDA $1")
+    .replace(/^(\d+) BLOOD$/, "$1 SANGRE")
+    .replace(/^BLOOD (\d+)/, "SANGRE $1")
+    .replace(/^DEBT \+(\d+)/, "DEUDA +$1")
+    .replace(/^BLOOD LOST/, "SANGRE PERDIDA")
+    .replace(/^DEBT \+3/, "DEUDA +3")
+    .replace(/^LAST LAMP: /, "ÚLTIMO FAROL: ")
+    .replace(/^LINE (\d+)$/, "LÍNEA $1");
+}

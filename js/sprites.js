@@ -424,6 +424,78 @@ export function drawCollector(ctx, e, t) {
   ctx.restore();
 }
 
+export function drawLeech(ctx, e, t) {
+  const cx = Math.round(e.x + e.w / 2);
+  const feet = Math.round(e.y + e.h);
+  const pulse = Math.sin(t * 11 + e.seed) * 1.2;
+  const flash = e.flash > 0;
+  shadow(ctx, cx, feet + 1, 17, 0.3);
+  ctx.save();
+  ctx.translate(cx, feet);
+  if (e.facing < 0) ctx.scale(-1, 1);
+  // Low, segmented body with hooked legs: a blood-fed alley parasite.
+  px(ctx, -8, -8, 16, 7, PAL.ink);
+  px(ctx, -7, -7, 14, 5, flash ? PAL.white : "#64213c");
+  px(ctx, -5, -9 - pulse, 10, 4, flash ? PAL.white : "#a43858");
+  px(ctx, -3, -8 - pulse, 6, 2, flash ? PAL.white : "#d45c73");
+  px(ctx, 3, -6, 4, 2, PAL.ink);
+  px(ctx, 5, -6, 2, 1, PAL.gold);
+  // hooked mandibles and six twitching feet
+  px(ctx, 7, -4, 3, 2, flash ? PAL.white : PAL.bone2);
+  px(ctx, 9, -3, 2, 2, flash ? PAL.white : PAL.blood2);
+  for (let i = 0; i < 3; i++) {
+    const leg = Math.sin(t * 16 + i * 1.7) * 1.5;
+    px(ctx, -6 + i * 4, -2, 1, 3 + leg, flash ? PAL.white : "#30121f");
+    px(ctx, -7 + i * 4, 0 + leg, 2, 1, flash ? PAL.white : PAL.blood2);
+    px(ctx, -5 + i * 4, -2, 1, 3 - leg, flash ? PAL.white : "#30121f");
+    px(ctx, -4 + i * 4, 0 - leg, 2, 1, flash ? PAL.white : PAL.blood2);
+  }
+  if (e.state === "leap") {
+    px(ctx, -12, -10, 3, 1, PAL.blood2);
+    px(ctx, -15, -12, 2, 1, PAL.blood);
+  }
+  ctx.restore();
+}
+
+export function drawSpitter(ctx, e, t) {
+  const cx = Math.round(e.x + e.w / 2);
+  const cy = Math.round(e.y + e.h / 2);
+  const hover = Math.sin(t * 4 + e.seed) * 1.5;
+  const flash = e.flash > 0;
+  ctx.save();
+  ctx.translate(cx, cy + hover);
+  if (e.facing < 0) ctx.scale(-1, 1);
+  // Ragged floating sac and thorny feelers.
+  ctx.strokeStyle = flash ? PAL.white : "#6e3852";
+  ctx.lineWidth = 1;
+  for (let i = -1; i <= 1; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * 4, 5);
+    ctx.lineTo(i * 7 + Math.sin(t * 7 + i) * 2, 12);
+    ctx.stroke();
+  }
+  px(ctx, -8, -8, 16, 14, PAL.ink);
+  px(ctx, -7, -9, 14, 13, flash ? PAL.white : "#382034");
+  px(ctx, -6, -7, 12, 8, flash ? PAL.white : "#71304a");
+  px(ctx, -5, -12, 4, 5, flash ? PAL.white : "#501f38");
+  px(ctx, 1, -13, 5, 6, flash ? PAL.white : "#501f38");
+  px(ctx, -4, -5, 3, 2, PAL.ink);
+  px(ctx, 2, -5, 3, 2, PAL.ink);
+  px(ctx, -3, -5, 1, 1, PAL.gold);
+  px(ctx, 3, -5, 1, 1, PAL.gold);
+  // The throat sac glows before each thorn volley.
+  const charging = e.shootCd < 0.35;
+  ctx.save();
+  ctx.globalAlpha = charging ? 0.9 : 0.55;
+  ctx.globalCompositeOperation = "lighter";
+  px(ctx, 5, -1, 5, 4, flash ? PAL.white : charging ? PAL.blood2 : "#9e3554");
+  px(ctx, 7, 0, 3, 2, PAL.bone2);
+  ctx.restore();
+  px(ctx, -9, -10, 3, 2, flash ? PAL.white : "#a34861");
+  px(ctx, 5, -11, 3, 2, flash ? PAL.white : "#a34861");
+  ctx.restore();
+}
+
 export function drawBoss(ctx, b, t, player) {
   const cx = b.x + b.w / 2;
   const base = b.y + b.h;

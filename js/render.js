@@ -3,7 +3,7 @@ import {
   drawBackground, drawTerrain, drawProps, drawForeground,
 } from "./render-bg.js";
 import {
-  drawPlayer, drawZombie, drawBat, drawKatana, drawCollector, drawBoss,
+  drawPlayer, drawZombie, drawBat, drawKatana, drawCollector, drawLeech, drawSpitter, drawBoss,
 } from "./sprites.js";
 import {
   text, px, drawHud, drawWorldUi, drawBanner, drawTitle,
@@ -174,6 +174,8 @@ function drawEnemy(ctx, e, game) {
   else if (e.type === "bat") drawBat(ctx, e, t);
   else if (e.type === "katana") drawKatana(ctx, e, t);
   else if (e.type === "collector") drawCollector(ctx, e, t);
+  else if (e.type === "leech") drawLeech(ctx, e, t);
+  else if (e.type === "spitter") drawSpitter(ctx, e, t);
 
   // tiny hp bar for tough enemies
   if (e.hp < e.maxHp && (e.type === "katana" || e.type === "collector")) {

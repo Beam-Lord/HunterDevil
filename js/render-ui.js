@@ -1,8 +1,10 @@
 import { W, H, PAL, clamp } from "./util.js";
+import { es } from "./es.js";
 
 const FONT = '"DejaVu Sans Mono", "Courier New", monospace';
 
 export function text(ctx, str, x, y, o = {}) {
+  str = es(str);
   const {
     size = 8, color = PAL.bone, align = "left", weight = 700,
     shadow = true, glow = 0, alpha = 1, baseline = "top", spacing = 0,

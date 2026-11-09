@@ -358,6 +358,8 @@ class Enemy {
     else if (this.type === "bat") this.updateBat(dt, game);
     else if (this.type === "katana") this.updateKatana(dt, game);
     else if (this.type === "collector") this.updateCollector(dt, game);
+    else if (this.type === "leech") this.updateLeech(dt, game);
+    else if (this.type === "spitter") this.updateSpitter(dt, game);
 
     if (overlap(this.rect, game.player.rect)) {
       game.enemyContact(this);
@@ -460,6 +462,62 @@ class Enemy {
     this.vx = clamp(this.vx, -400, 400);
   }
 
+  updateLeech(dt, game) {
+    const p = game.player;
+    const dx = p.centerX - this.centerX;
+    const d = Math.abs(dx);
+    this.facing = sign(dx);
+    this.stateTimer = Math.max(0, this.stateTimer - dt);
+    if (this.state === "leap") {
+      this.vx = this.facing * 118;
+      if (this.onGround && this.vy === 0 && this.stateTimer < 0.34) {
+        this.state = "recover";
+        this.stateTimer = 0.55;
+      }
+    } else if (this.state === "recover") {
+      this.vx = approach(this.vx, 0, 500 * dt);
+      if (this.stateTimer <= 0) this.state = "stalk";
+    } else {
+      if (d < 175 && Math.abs(p.centerY - this.centerY) < 70) {
+        this.vx = approach(this.vx, this.facing * 30, 320 * dt);
+        if (d < 112 && this.stateTimer <= 0 && this.onGround) {
+          this.state = "leap";
+          this.stateTimer = 0.62;
+          this.vy = -215;
+        }
+      } else {
+        this.vx = approach(this.vx, this.facing * 14, 180 * dt);
+        if (this.centerX < this.spawnX - 40 || this.centerX > this.spawnX + 40) this.facing *= -1;
+      }
+    }
+    walkerPhysics(this, dt, game.room);
+    this.contactDamage = this.state === "leap" ? 2 : 1;
+  }
+
+  updateSpitter(dt, game) {
+    const p = game.player;
+    const dx = p.centerX - this.centerX;
+    const d = Math.abs(dx);
+    this.facing = sign(dx);
+    const targetY = p.y - 28 + Math.sin(this.animTime * 2.4 + this.seed) * 13;
+    const targetX = p.centerX - this.w / 2 - this.facing * 112;
+    this.vx = approach(this.vx, clamp((targetX - this.x) * 1.15, -52, 52), 180 * dt);
+    this.vy = approach(this.vy, clamp((targetY - this.y) * 1.5, -46, 46), 220 * dt);
+    this.x = clamp(this.x + this.vx * dt, 8, game.room.width - this.w - 8);
+    this.y = clamp(this.y + this.vy * dt, 52, 196);
+    this.shootCd -= dt;
+    if (this.shootCd <= 0 && d < 280) {
+      this.shootCd = 1.8;
+      const a = Math.atan2(p.centerY - this.centerY, p.centerX - this.centerX);
+      game.spawnProjectile({
+        x: this.centerX, y: this.centerY,
+        vx: Math.cos(a) * 118, vy: Math.sin(a) * 118,
+        damage: 1, type: "thorn", friendly: false, gravity: 28, life: 3,
+      });
+    }
+    this.contactDamage = 1;
+  }
+
   updateCollector(dt, game) {
     const p = game.player;
     this.facing = sign(p.centerX - this.centerX);
@@ -526,6 +584,16 @@ export function createEnemy(def) {
     e.x = def.x; e.y = def.y;
     e.blood = 45;
     e.shootCd = 1.1;
+  } else if (def.type === "leech") {
+    e.w = 18; e.h = 14; e.hp = 34; e.maxHp = 34;
+    e.x = def.x - e.w / 2; e.y = def.y - e.h;
+    e.blood = 14;
+    e.state = "stalk";
+  } else if (def.type === "spitter") {
+    e.w = 20; e.h = 20; e.hp = 38; e.maxHp = 38;
+    e.x = def.x - e.w / 2; e.y = def.y;
+    e.blood = 18;
+    e.shootCd = 1.4;
   }
   return e;
 }

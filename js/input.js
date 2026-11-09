@@ -71,39 +71,52 @@ export class Input {
   }
 }
 
-// Basic touch support: on-screen d-pad and action buttons write into the
-// same key sets as the keyboard.
+// Touch buttons feed the same key sets as the keyboard, so every action
+// remains available on phones and tablets.
 export function installTouchControls(input) {
   if (!matchMedia("(pointer: coarse)").matches) return;
   const wrap = document.createElement("div");
   wrap.id = "touch";
+  wrap.setAttribute("aria-label", "Controles táctiles");
   wrap.innerHTML = `
-    <div class="pad">
-      <button data-code="KeyA">◀</button>
-      <button data-code="KeyD">▶</button>
+    <div class="touch-cluster touch-move" aria-label="Movimiento">
+      <button data-code="KeyA" aria-label="Mover a la izquierda">◀</button>
+      <button data-code="KeyD" aria-label="Mover a la derecha">▶</button>
     </div>
-    <div class="acts">
-      <button data-code="KeyE">E</button>
-      <button data-code="KeyK">K</button>
-      <button data-code="KeyJ">J</button>
-      <button data-code="Space">JMP</button>
+    <div class="touch-cluster touch-utility" aria-label="Acciones">
+      <button data-code="KeyE">USAR</button>
+      <button data-code="Tab">PACTO</button>
+      <button data-code="Escape">PAUSA</button>
+      <button data-code="KeyQ">CAMB.</button>
+    </div>
+    <div class="touch-cluster touch-combat" aria-label="Combate">
+      <button data-code="KeyK">DASH</button>
+      <button data-code="KeyL">ZORRO</button>
+      <button data-code="KeyJ">ATACAR</button>
+      <button data-code="Space">SALTAR</button>
     </div>`;
   document.body.appendChild(wrap);
+
   wrap.querySelectorAll("button").forEach((btn) => {
     const code = btn.dataset.code;
     const press = (e) => {
       e.preventDefault();
+      if (btn.hasPointerCapture?.(e.pointerId)) return;
+      btn.setPointerCapture?.(e.pointerId);
       input.downSet.add(code);
       input.pressedSet.add(code);
+      input.anyPressed = true;
       input.onAction?.(code);
     };
     const release = (e) => {
       e.preventDefault();
+      if (btn.hasPointerCapture?.(e.pointerId)) btn.releasePointerCapture(e.pointerId);
       input.downSet.delete(code);
+      input.releasedSet.add(code);
     };
     btn.addEventListener("pointerdown", press);
     btn.addEventListener("pointerup", release);
     btn.addEventListener("pointercancel", release);
-    btn.addEventListener("pointerleave", release);
+    btn.addEventListener("lostpointercapture", release);
   });
 }

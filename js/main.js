@@ -15,17 +15,29 @@ const sfx = new Sfx();
 const game = new Game(input, sfx);
 installTouchControls(input);
 
+const coarsePointer = matchMedia("(pointer: coarse)");
+const rotatePrompt = document.getElementById("rotate-prompt");
 function resize() {
-  const pad = innerWidth < 640 ? 0 : 24;
-  const scale = Math.min((innerWidth - pad) / W, (innerHeight - pad) / H);
-  const w = Math.max(320, Math.floor(W * scale));
-  const h = Math.max(181, Math.floor(H * scale));
+  const viewport = window.visualViewport;
+  const width = Math.floor(viewport?.width || innerWidth);
+  const height = Math.floor(viewport?.height || innerHeight);
+  const landscape = width >= height;
+  const safeHeight = coarsePointer.matches ? (landscape ? 104 : 32) : 24;
+  const scale = Math.max(0.1, Math.min((width - 16) / W, (height - safeHeight - 16) / H));
+  const w = Math.floor(W * scale);
+  const h = Math.floor(H * scale);
   frame.style.width = `${w}px`;
   frame.style.height = `${h}px`;
+  frame.style.transform = coarsePointer.matches && landscape ? `translateY(-${Math.floor(safeHeight / 2)}px)` : "";
   canvas.style.width = `${w}px`;
   canvas.style.height = `${h}px`;
+  document.body.classList.toggle("portrait-touch", coarsePointer.matches && !landscape);
+  if (rotatePrompt) rotatePrompt.setAttribute("aria-hidden", String(!coarsePointer.matches || landscape));
 }
 addEventListener("resize", resize);
+addEventListener("orientationchange", resize);
+window.visualViewport?.addEventListener("resize", resize);
+coarsePointer.addEventListener?.("change", resize);
 resize();
 
 let last = performance.now();

@@ -34,6 +34,7 @@ export function buildLevels() {
       { type: "zombie", x: 736, y: 240 },
       { type: "katana", x: 872, y: 240 },
       { type: "bat", x: 1016, y: 98 },
+      { type: "leech", x: 620, y: 240 },
     ],
     neon: [
       { x: 232, y: 112, text: "PAWN", color: "teal" },
@@ -98,6 +99,7 @@ export function buildLevels() {
       { type: "bat", x: 1120, y: 108 },
       { type: "zombie", x: 1210, y: 240 },
       { type: "katana", x: 1332, y: 240 },
+      { type: "spitter", x: 790, y: 142 },
     ],
     neon: [
       { x: 370, y: 100, text: "LINE 13", color: "teal" },

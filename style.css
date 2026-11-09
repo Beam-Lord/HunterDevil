@@ -84,31 +84,63 @@ canvas {
 
 #boot.hidden { opacity: 0; }
 
-/* touch controls, injected only on coarse-pointer devices */
+/* Full action set for phones and tablets. */
 #touch {
   position: fixed;
-  inset: auto 0 0 0;
+  inset: auto 0 0;
   display: none;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 16px 18px 22px;
+  gap: 8px;
+  padding: 8px max(10px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
   pointer-events: none;
   z-index: 10;
 }
-#touch .pad, #touch .acts { display: flex; gap: 10px; pointer-events: auto; }
+.touch-cluster { pointer-events: auto; }
+.touch-move, .touch-combat { display: flex; gap: 6px; }
+.touch-utility, .touch-combat { display: grid; grid-template-columns: repeat(2, minmax(42px, 1fr)); gap: 5px; }
 #touch button {
-  width: 54px;
-  height: 54px;
+  min-width: 42px;
+  width: clamp(42px, 11vw, 54px);
+  height: clamp(42px, 11vw, 54px);
+  padding: 2px;
   border-radius: 50%;
-  border: 1px solid rgba(242, 230, 216, .3);
-  background: rgba(8, 7, 13, .62);
+  border: 1px solid rgba(242, 230, 216, .38);
+  background: rgba(8, 7, 13, .76);
   color: var(--bone);
-  font: 700 11px/1 "DejaVu Sans Mono", monospace;
-  letter-spacing: .04em;
+  font: 700 clamp(8px, 2vw, 10px)/1 "DejaVu Sans Mono", monospace;
+  letter-spacing: .01em;
   touch-action: none;
+  -webkit-tap-highlight-color: transparent;
 }
-#touch button:active { background: rgba(210, 31, 60, .5); }
+#touch button:active { background: rgba(210, 31, 60, .72); }
+#rotate-prompt { display: none; }
 @media (pointer: coarse) {
   #touch { display: flex; }
-  #boot { bottom: 96px; }
+  #boot { bottom: max(100px, calc(env(safe-area-inset-bottom) + 92px)); }
+}
+@media (pointer: coarse) and (orientation: portrait) {
+  #rotate-prompt {
+    display: grid;
+    position: fixed;
+    inset: 0;
+    place-content: center;
+    gap: 10px;
+    z-index: 8;
+    padding: 24px;
+    text-align: center;
+    color: var(--bone);
+    background: rgba(5, 4, 9, .82);
+    font-size: 13px;
+    line-height: 1.5;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  #rotate-prompt span { font-size: 30px; color: var(--blood); }
+}
+@media (pointer: coarse) and (orientation: landscape) {
+  #touch { padding-top: 4px; }
+  #touch button { width: clamp(38px, 8vh, 48px); height: clamp(38px, 8vh, 48px); }
+  #boot { display: none; }
 }
