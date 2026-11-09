@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23df4137'/%3E%3Cpath d='M8 7h15v3H11v4h10v3H11v8H8z' fill='white'/%3E%3C/svg%3E">
+  <title>CHAINSAW — Public Safety Field Ops</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Public Safety home"><span class="brand-mark">公安</span><span>PUBLIC<span class="brand-light"> SAFETY</span></span></a>
+      <div class="topbar-center"><span class="live-dot"></span> FIELD TERMINAL <span class="top-sep">/</span> TOKYO DIVISION</div>
+      <div class="topbar-right"><span class="dispatch-label">DISPATCH</span><span class="dispatch-signal">●●●</span><span class="agent-id">AGENT 04-13</span></div>
+    </header>
+
+    <main>
+      <section class="intro-row">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> NIGHT SHIFT · 23:48 JST</div><h1>THE <span class="title-cut">DEBT</span> COLLECTOR</h1><p class="subtitle">Shibuya is crawling. Make the contract. Pay the price.</p></div>
+        <div class="mission-stamp"><span class="stamp-label">OPERATION</span><strong>NO REST FOR<br>THE WICKED</strong><span class="stamp-code">PS-TK / 07-B</span></div>
+      </section>
+
+      <section class="game-layout" aria-label="Game and mission controls">
+        <div class="game-column">
+          <div class="game-frame">
+            <div class="frame-top"><span><i class="tiny-square"></i> LIVE FEED <span class="frame-muted">· SHIBUYA UNDERPASS</span></span><span class="frame-coords">35°39' · 139°42'</span></div>
+            <div class="viewport" id="viewport">
+              <canvas id="game" width="480" height="270" aria-label="Pixel art side-scrolling devil hunt game"></canvas>
+              <div class="hud hud-left"><div class="hud-kicker">VITALS <span id="health-text">04 / 04</span></div><div class="hearts" id="hearts" aria-label="4 health"></div></div>
+              <div class="hud hud-right"><div class="hud-kicker">BLOOD DEBT <span id="debt-value">¥ 8,400</span></div><div class="debt-track"><span id="debt-meter"></span></div></div>
+              <div class="hud hud-bottom-left"><span class="hud-kicker">DEVILS EXORCISED</span><strong id="kill-count">00 <small>/ 08</small></strong></div>
+              <div class="hud hud-bottom-right"><span class="hud-kicker">CASH RECOVERED</span><strong id="cash-value">¥ 000</strong></div>
+              <div class="virtual-controls" id="virtual-controls" aria-label="Touch controls">
+                <div class="virtual-stick" id="virtual-stick" role="slider" aria-label="Move left or right" aria-valuemin="-1" aria-valuemax="1" aria-valuenow="0" tabindex="0"><span class="stick-left">◀</span><span class="stick-right">▶</span><i class="stick-thumb" id="stick-thumb"></i></div>
+                <div class="virtual-actions"><button class="virtual-button jump-button" id="touch-jump" aria-label="Saltar" title="Saltar">↑</button><button class="virtual-button dash-button" id="touch-dash" aria-label="Dash" title="Dash">⇢</button><button class="virtual-button attack-button" id="touch-attack" aria-label="Ataque" title="Ataque">J</button><button class="virtual-button weapon-button" id="touch-weapon" aria-label="Cambiar arma" title="Cambiar arma">↻</button><button class="virtual-button interact-button" id="touch-interact" aria-label="Interactuar" title="Interactuar">E</button><button class="virtual-button contract-button" id="touch-contract" aria-label="Menú de contratos" title="Contratos">TAB</button><button class="virtual-button pause-button" id="touch-pause" aria-label="Pausa, como Escape" title="Pausa / ESC">ESC</button></div>
+              </div>
+              <div class="contract-menu-overlay hidden" id="contract-menu"><div class="quick-menu"><span class="quick-menu-kicker">TAB / CONTRACT MENU</span><h2>CHOOSE YOUR CONTRACT</h2><button class="quick-contract" data-quick-contract="fox">狐 &nbsp; FOX DEVIL <small>FANG STRIKE · 1 HP</small></button><button class="quick-contract" data-quick-contract="future">未 &nbsp; FUTURE DEVIL <small>SEE THE FUTURE · FREE</small></button><button class="quick-contract" data-quick-contract="blood">血 &nbsp; BLOOD DEVIL <small>REAPER · 1 HP</small></button><button class="quick-menu-close" id="close-contract-menu">CLOSE · TAB</button></div></div>
+              <div class="pause-overlay hidden" id="pause-overlay"><div class="quick-menu pause-card"><span class="quick-menu-kicker">FIELD TERMINAL · PAUSED</span><h2>SHIFT ON HOLD</h2><p>Press ESC or resume to return to the hunt.</p><button class="resume-button" id="resume-button">RESUME SHIFT</button></div></div>
+              <div class="boss-bar hidden" id="boss-bar"><div class="boss-name"><span>⚠</span> BAT DEVIL <span class="boss-class">· SPECIAL GRADE</span></div><div class="boss-track"><i id="boss-meter"></i></div></div>
+              <div class="screen-overlay" id="start-overlay">
+                <div class="overlay-noise"></div>
+                <div class="classified"><span>PUBLIC SAFETY</span><span>CASE FILE 07-B</span></div>
+                <div class="overlay-sigil">公安</div>
+                <p class="overlay-kicker">TOKYO · SHIBUYA WARD</p>
+                <h2>YOUR DEBT<br>IS <em>DUE.</em></h2>
+                <p class="overlay-copy">A devil has taken over the underpass.<br>Clock in. Try not to die.</p>
+                <button class="start-button" id="start-button">ACCEPT THE CONTRACT <span>↗</span></button>
+                <div class="overlay-foot"><span>↑ ↓ ← → MOVE</span><span>J ATTACK</span><span>K CONTRACT</span></div>
+              </div>
+              <div class="result-overlay hidden" id="result-overlay"><div class="result-card"><span class="result-kicker" id="result-kicker">MISSION COMPLETE</span><h2 id="result-title">NICE WORK,<br>HUNTER.</h2><p id="result-copy">You survived the shift. Barely.</p><div class="result-stats"><span>DEVILS <b id="result-kills">08</b></span><span>RECOVERED <b id="result-cash">¥ 000</b></span></div><button class="start-button" id="restart-button">RUN IT BACK <span>↻</span></button></div></div>
+              <div class="toast" id="toast" aria-live="polite"></div>
+              <div class="hit-flash" id="hit-flash"></div>
+            </div>
+            <div class="frame-bottom"><span><span class="signal-bars">▂▄▆</span> ENCRYPTED UPLINK <span class="frame-muted">· LIVE</span></span><span id="zone-label">ZONE 01 — THE UNDERPASS</span></div>
+          </div>
+          <div class="control-strip"><span class="control-label">FIELD MANUAL</span><span><kbd>A</kbd><kbd>D</kbd> MOVE</span><span><kbd>SPACE</kbd> JUMP</span><span><kbd>SHIFT</kbd> DASH</span><span><kbd>J</kbd> ATTACK</span><span><kbd>E</kbd> INTERACT</span><span><kbd>K</kbd> CONTRACT</span><span><kbd>TAB</kbd> MENU</span><span><kbd>ESC</kbd> PAUSE</span><span><kbd>1</kbd>–<kbd>3</kbd> WEAPON</span><button class="sound-toggle" id="sound-toggle" aria-pressed="false" title="Toggle sound">♫ <span>SOUND OFF</span></button></div>
+        </div>
+
+        <aside class="intel-panel">
+          <section class="panel-block mission-block"><div class="panel-heading"><span>01 / ASSIGNMENT</span><span class="status-pill"><i></i> ACTIVE</span></div><h2>UNDERPASS<br>SWEEP</h2><p>Clear the devils. Find the Bat Devil. Collect what's owed.</p><div class="objective"><span class="objective-icon">◎</span><span>ELIMINATE DEVILS</span><strong id="objective-count">0 / 8</strong></div><div class="objective"><span class="objective-icon yen">¥</span><span>DEBT REMAINING</span><strong id="objective-debt">8,400</strong></div></section>
+          <section class="panel-block contract-block"><div class="panel-heading"><span>02 / CONTRACTS</span><span class="risk-label">COST: BLOOD</span></div><button class="contract-card selected" data-contract="fox"><span class="contract-symbol fox-symbol">狐</span><span class="contract-info"><strong>FOX DEVIL</strong><small>FANG STRIKE · 1 HP</small></span><span class="contract-key">K</span></button><button class="contract-card" data-contract="future"><span class="contract-symbol future-symbol">未</span><span class="contract-info"><strong>FUTURE DEVIL</strong><small>SEE THE FUTURE · FREE</small></span><span class="contract-key">K</span></button><button class="contract-card" data-contract="blood"><span class="contract-symbol blood-symbol">血</span><span class="contract-info"><strong>BLOOD DEVIL</strong><small>REAPER · 1 HP</small></span><span class="contract-key">K</span></button><div class="contract-note">SELECT A CONTRACT, THEN PRESS <b>K</b></div></section>
+          <section class="panel-block weapon-block"><div class="panel-heading"><span>03 / LOADOUT</span><span class="ammo-label">NO AMMO NEEDED</span></div><div class="weapon-list"><button class="weapon-item active" data-weapon="1"><span class="weapon-number">01</span><span class="weapon-icon chainsaw-icon">╱</span><span><strong>STARTER</strong><small>CHAINSAW</small></span><span class="weapon-status">EQUIPPED</span></button><button class="weapon-item" data-weapon="2"><span class="weapon-number">02</span><span class="weapon-icon">⚔</span><span><strong>CURSED</strong><small>NAIL SWORD</small></span><span class="weapon-status locked">LOCKED</span></button><button class="weapon-item" data-weapon="3"><span class="weapon-number">03</span><span class="weapon-icon gun-icon">▰</span><span><strong>SERVICE</strong><small>PISTOL</small></span><span class="weapon-status locked">LOCKED</span></button></div></section>
+          <div class="tip-card"><span class="tip-mark">!</span><p><strong>FIELD TIP</strong><br>Devils hate getting hit. They drop cash. Your debt does not.</p></div>
+        </aside>
+      </section>
+      <footer class="page-footer"><span>© PUBLIC SAFETY · TOKYO SPECIAL DIVISION 4</span><span>UNOFFICIAL FAN GAME · NOT AFFILIATED WITH THE ORIGINAL SERIES</span><span>BUILD 0.4.13 <b>■</b></span></footer>
+    </main>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
